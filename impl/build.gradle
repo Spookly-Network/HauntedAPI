@@ -1,0 +1,38 @@
+plugins {
+    id 'java'
+    id 'fabric-loom'
+}
+
+sourceCompatibility = '21'
+targetCompatibility = '21'
+
+dependencies {
+    api project(path: ":api", configuration: "namedElements")
+    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+
+    //Adventure component api
+    modImplementation include("net.kyori:adventure-platform-fabric:5.14.0")
+
+    // Minecraft dependencies
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    mappings loom.officialMojangMappings()
+
+    include project(":api")
+}
+
+processResources {
+    inputs.property "version", rootProject.version
+    inputs.property "minecraft_version", rootProject.minecraft_version
+    inputs.property "loader_version", rootProject.loader_version
+    filteringCharset "UTF-8"
+
+    filesMatching("fabric.mod.json") {
+        expand "version": rootProject.version,
+                "minecraft_version": rootProject.minecraft_version,
+                "loader_version": rootProject.loader_version
+    }
+}
+
+loom {
+    serverOnlyMinecraftJar()
+}

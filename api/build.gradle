@@ -1,0 +1,29 @@
+plugins {
+    id 'java-library'
+    id 'fabric-loom'
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    mappings loom.officialMojangMappings()
+}
+
+java {
+    withSourcesJar()
+}
+
+tasks.jar {
+    manifest {
+        attributes(
+                'Implementation-Title': project.name,
+                'Implementation-Version': project.version
+        )
+    }
+}
+
+loom {
+    remapJar {
+        archiveClassifier.set('')
+        addNestedDependencies.set(true)
+    }
+}

@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "id": "haunted",
+  "version": "${version}",
+  "name": "Haunted",
+  "description": "Provide a bukkit-like api!",
+  "authors": [
+    "Niklas Ehlen"
+  ],
+  "contact": {
+    "sources": "https://github.com/Spookly-Network/HauntedAPI/api"
+  },
+  "license": "MIT",
+  "environment": "server",
+  "depends": {
+    "fabricloader": ">=0.15.11",
+    "minecraft": "~1.21",
+    "java": ">=21"
+  }
+}

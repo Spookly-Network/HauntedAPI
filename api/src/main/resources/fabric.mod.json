@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "id": "haunted-api",
+  "name": "Haunted API",
+  "version": "${version}",
+  "environment": "server",
+  "license": "MIT",
+  "contact": {
+    "sources": "https://github.com/Spookly-Network/HauntedAPI/api"
+  },
+  "authors": [
+    "Niklas Ehlen"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  },
+  "description": "Haunted is a Fabric mod that provides some use full tools for spigot-ish development"
+}

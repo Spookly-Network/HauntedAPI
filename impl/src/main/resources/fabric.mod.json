@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "id": "haunted-impl",
+  "version": "${version}",
+  "name": "Haunted Impl",
+  "description": "Provide a bukkit-like api!",
+  "authors": [
+    "Niklas Ehlen"
+  ],
+  "contact": {
+    "homepage": "https://fabricmc.net/",
+    "sources": "https://github.com/FabricMC/fabric-example-mod"
+  },
+  "license": "MIT",
+  "icon": "assets/haunted/icon.png",
+  "environment": "server",
+  "entrypoints": {
+    "main": [
+      "de.spookly.haunted.HauntedImpl"
+    ]
+  },
+  "mixins": [
+    {
+      "config": "haunted-server.mixins.json",
+      "environment": "server"
+    }
+  ],
+  "depends": {
+    "fabricloader": ">=0.15.11",
+    "minecraft": "~1.21",
+    "java": ">=21"
+  }
+}

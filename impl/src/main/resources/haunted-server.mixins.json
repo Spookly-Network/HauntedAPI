@@ -1,0 +1,12 @@
+{
+  "required": true,
+  "package": "de.spookly.haunted.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "MinecraftServerMixin",
+    "ServerPlayerMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+	}
+}

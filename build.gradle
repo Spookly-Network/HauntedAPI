@@ -1,0 +1,132 @@
+plugins {
+    id 'fabric-loom' version '1.7-SNAPSHOT' apply false
+    id 'com.github.johnrengelman.shadow' version '8.1.1' apply false
+    id 'maven-publish'
+}
+
+version = project.mod_version
+group = project.maven_group
+
+repositories {
+    mavenCentral()
+    gradlePluginPortal()
+}
+
+subprojects {
+    apply plugin: "fabric-loom"
+    apply plugin: 'java'
+
+    sourceCompatibility = '21'
+    targetCompatibility = '21'
+
+    repositories {
+        mavenCentral()
+        maven {
+            name = 'Fabric'
+            url = 'https://maven.fabricmc.net/'
+        }
+    }
+
+    dependencies {
+        compileOnly 'org.projectlombok:lombok:1.18.30'
+        annotationProcessor 'org.projectlombok:lombok:1.18.30'
+        compileOnly 'org.jetbrains:annotations:24.0.0'
+
+        // Minecraft dependencies
+        minecraft "com.mojang:minecraft:${project.minecraft_version}"
+        mappings loom.officialMojangMappings()
+
+        // Fabric API
+        modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+
+        // SLF4J API for logging
+//        implementation 'org.slf4j:slf4j-api:1.7.30'
+    }
+
+    processResources {
+        inputs.property "version", project.mod_version
+        inputs.property "minecraft_version", project.minecraft_version
+        inputs.property "loader_version", project.loader_version
+        filteringCharset "UTF-8"
+
+        filesMatching("fabric.mod.json") {
+            expand "version": project.mod_version,
+                    "minecraft_version": project.minecraft_version,
+                    "loader_version": project.loader_version
+        }
+    }
+
+    publishing {
+        setupRepositories(repositories)
+    }
+}
+
+void setupRepositories(RepositoryHandler repositories) {
+    //repositories.mavenLocal() // uncomment for testing
+    def ENV = System.getenv()
+    if (ENV.MVN_SERVER_URL) {
+        repositories.maven {
+            url ENV.MVN_SERVER_URL
+            if (ENV.MVN_SERVER_USER) {
+                credentials {
+                    username ENV.MVN_SERVER_USER
+                    password ENV.MVN_SERVER_TOKEN
+                }
+            }
+        }
+    }
+}
+
+//allprojects {
+//    apply plugin: "fabric-loom"
+//
+//    dependencies {
+//        minecraft "com.mojang:minecraft:${project.minecraft_version}"
+//        mappings loom.officialMojangMappings()
+//        modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+//
+//        // LOMBOK
+//        compileOnly 'org.projectlombok:lombok:1.18.30'
+//        annotationProcessor 'org.projectlombok:lombok:1.18.30'
+//
+//        //Jetbrains Annotations
+//        compileOnly 'org.jetbrains:annotations:24.0.0'
+//    }
+//
+//    processResources {
+//        inputs.property "version", project.version
+//        inputs.property "minecraft_version", project.minecraft_version
+//        inputs.property "loader_version", project.loader_version
+//        filteringCharset "UTF-8"
+//
+//        filesMatching("fabric.mod.json") {
+//            expand "version": project.version,
+//                    "minecraft_version": project.minecraft_version,
+//                    "loader_version": project.loader_version
+//        }
+//    }
+//
+//    loom {
+//        serverOnlyMinecraftJar()
+//
+//        interfaceInjection {
+//            // When enabled injected interfaces from dependecies will be applied.
+//            enableDependencyInterfaceInjection = true
+//        }
+//    }
+//}
+
+//dependencies {
+//    include project(path: ":api")
+//    implementation project(path: ":api", configuration: "namedElements")
+//}
+//
+//jar {
+//    from("LICENSE") {
+//        rename { "${it}_${project.archivesBaseName}"}
+//    }
+//}
+//
+//test {
+//    useJUnitPlatform()
+//}
